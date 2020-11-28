@@ -3,16 +3,11 @@
 #include <stdbool.h>
 #include <conio.h>
 #include <time.h>
-#include <C:\Users\hiago\Documents\C\Primos\functions.h>
+#include <C:\Users\hiago\Documents\C\PRIMOS\functions.h>
 
 int main(){
-    int **matriz;
-    int tam;
-    printf("Digite o tamanho da matriz\n");
-    scanf("%d",&tam);
-    matriz=Matriz(tam);
-    Preencher(matriz, tam);
-    int cont;
-    cont=Sequencial(matriz,tam);
-    printf("Existem %i primos", cont);
+    CriarMatriz(MATRIZ_LINHAS, MATRIZ_COLUNAS);
+    Preencher();
+    printf("Existem %d primos", Sequencial());
+    FreeMatriz();
 }

@@ -4,24 +4,30 @@
 #include <conio.h>
 #include <time.h>
 #include <math.h>
-#include <C:\Users\hiago\Documents\C\Primos\functions.h>
+#include <C:\Users\hiago\Documents\C\PRIMOS\functions.h>
 
-int **Matriz(int Tamanho){
-    int **matriz;
-    matriz=(int**)malloc(sizeof(int*) * Tamanho);
-    if(matriz!=NULL){
-        for(int i=0; i<Tamanho; i++){
-            matriz[i]=(int*)malloc(sizeof(int) * Tamanho);
+int ContprimoS;
+Matriz *MatPrincipal;
+
+void CriarMatriz(int linha, int coluna){
+    MatPrincipal=(Matriz*)malloc(sizeof(Matriz));
+    if(MatPrincipal!=NULL){
+        MatPrincipal->linha=linha;
+        MatPrincipal->coluna=coluna;
+        MatPrincipal->data=(int**)malloc(sizeof(int*) * linha);
+        if(MatPrincipal->data!=NULL){
+            for(int i=0; i<linha; i++){
+                MatPrincipal->data[i]=(int*)malloc(sizeof(int) * coluna);
+            }
         }
     }
-    return matriz;
 }
-void Preencher(int **matriz, int Tamanho){
-    if(matriz!=NULL){
-    srand(50);
-        for(int i=0; i<Tamanho; i++){
-            for(int j=0; j<Tamanho; j++){
-                matriz[i][j]=rand() % 29999;
+void Preencher(){
+    if(MatPrincipal!=NULL){
+    srand(89);
+        for(int i=0; i<MatPrincipal->linha; i++){
+            for(int j=0; j<MatPrincipal->coluna; j++){
+                MatPrincipal->data[i][j]=rand() % 29999;
             }
         }
     }
@@ -36,18 +42,25 @@ bool Primo(int Numero){
     }
     return TRUE;
 }
-int Sequencial(int **matriz, int tam){
-    int cont=0;
-    if(matriz!=NULL){
-        for(int i=0; i<tam; i++){
-            for(int j=0; j<tam; j++){
-                printf("%i ",matriz[i][j]);
-                if(Primo(matriz[i][j])){
-                    cont++;
+int Sequencial(){
+    if(MatPrincipal!=NULL){
+        ContprimoS=0;
+        for(int i=0; i<MatPrincipal->linha; i++){
+            for(int j=0; j<MatPrincipal->coluna; j++){
+                printf("%i ",MatPrincipal->data[i][j]);
+                if(Primo(MatPrincipal->data[i][j])){
+                    ContprimoS++;
                 }
             }
                 printf("\n");
         }
     }
-    return cont;
+    return ContprimoS;
+}
+void FreeMatriz(){
+	for (int i = 0; i < MatPrincipal->linha; i++) {
+		free(MatPrincipal->data[i]);
+	}
+	free(MatPrincipal->data);
+	free(MatPrincipal);
 }
