@@ -8,7 +8,8 @@
 
 int ContprimoS;
 Matriz *MatPrincipal;
-
+Macrobloco *Macros;
+int QuantMacro;
 void CriarMatriz(int linha, int coluna){
     MatPrincipal=(Matriz*)malloc(sizeof(Matriz));
     if(MatPrincipal!=NULL){
@@ -63,4 +64,31 @@ void FreeMatriz(){
 	}
 	free(MatPrincipal->data);
 	free(MatPrincipal);
+}
+void CriarMacroblocos(float linha, float coluna){
+    if(MatPrincipal!=NULL){
+        float MacroPorLinha, MacroPorColuna;
+        MacroPorLinha=ceil(MatPrincipal->linha/linha);
+        MacroPorColuna=ceil(MatPrincipal->coluna/coluna);
+        QuantMacro=MacroPorLinha*MacroPorColuna;
+        Macros=(Macrobloco*)malloc(sizeof(Macrobloco) * QuantMacro);
+        int cont=0;
+        for(int i=0; i<MatPrincipal->linha; i+=linha){
+            for(int j=0; j<MatPrincipal->coluna; j+=coluna){
+                Macros[cont].LinhaI=i;
+                Macros[cont].LinhaF=i+linha-1;
+                Macros[cont].ColunaI=j;
+                Macros[cont].ColunaF=j+coluna-1;
+                cont++;
+            }
+        }
+    }
+}
+void PrintMacros(){
+    if(Macros!=NULL){
+        for(int i=0; i<QuantMacro; i++){
+            printf("\nMacro %i\nLinha I:%i\tLinha F:%i\nColuna I:%i\tColuna F:%i\n\n",i+1,Macros[i].LinhaI,Macros[i].LinhaF
+                   ,Macros[i].ColunaI,Macros[i].ColunaF);
+        }
+    }
 }

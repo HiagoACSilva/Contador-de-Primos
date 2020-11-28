@@ -11,10 +11,14 @@
 typedef struct MATRIZ{
     int **data, linha, coluna;
 }Matriz;
+typedef struct MACROBLOCO{
+    int LinhaI, LinhaF, ColunaI, ColunaF;
+}Macrobloco;
 void CriarMatriz(int , int); //CRIAR MATRIZ
 void Preencher();//PREENCHER MATRIZ
 bool Primo(int);//RETORNA SE O NUMERO É PRIMO OU NÃO
 int Sequencial();
 void FreeMatriz();
+void CriarMacroblocos(float linha, float coluna);
 
 #endif // FUNCTIONS_H
