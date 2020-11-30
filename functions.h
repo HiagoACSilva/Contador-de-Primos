@@ -6,23 +6,23 @@
 #ifndef FALSE
 #define FALSE 0
 #endif // FALSE
-#define MATRIZ_LINHAS 5
-#define MATRIZ_COLUNAS 5
-#define NUM_THREADS 2
-typedef struct MATRIZ{
+typedef struct MATRIZ{ //STRUCT DA MATRIZ PRINCIPAL
     int **data, linha, coluna;
 }Matriz;
-typedef struct MACROBLOCO{
+typedef struct MACROBLOCO{//STRUCT DOS MACROBLOCOS
     int LinhaI, LinhaF, ColunaI, ColunaF;
 }Macrobloco;
 void CriarMatriz(int , int); //CRIAR MATRIZ
 void Preencher();//PREENCHER MATRIZ
-bool Primo(int);//RETORNA SE O NUMERO É PRIMO OU NÃO
-int Sequencial();
-void FreeMatriz();
-void CriarMacroblocos(float , float);
-void PrintMacros();
-void *GercenciadorDeMacros();
-void *FuncaoThread();
-void Paralela();
+int Primo(int);//RETORNA SE O NUMERO É PRIMO OU NÃO
+int Sequencial();//RETORNA NUMERO DE PRIMOS DA CONTAGEM SEQUENCIAL
+void FreeMatriz();//LIBERA A MATRIZ
+void CriarMacroblocos(float , float);//CRIA O VETOR DE MACROBLOCOS
+void PrintMacros();//MOSTRA NA TELA OS MACROBLOCOS
+void *GercenciadorDeMacros(); // GERENCIA OS MACROS PARA AS THREADS
+void *FuncaoThread(); //AS THREADS EXECUTAM AQUI
+void Paralela(); //A FUNÇÃO QUE AS THREADS EXECUTAM
+void IniciarThreads();//INICIADOR DOS MUTEXES
+int GetContPrimoP(); //O GET DA CONTAGEM DOS NUMEROS PRIMOS CONTADOS EM PARALELO
+void ModificarThreads(int Num); //FUNÇÃO PARA MODIFICAR O NUMERO DE THREADS
 #endif // FUNCTIONS_H
