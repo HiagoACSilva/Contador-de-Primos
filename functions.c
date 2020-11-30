@@ -4,12 +4,17 @@
 #include <conio.h>
 #include <time.h>
 #include <math.h>
+#include <pthread.h>
 #include <C:\Users\hiago\Documents\C\PRIMOS\functions.h>
 
-int ContprimoS;
-Matriz *MatPrincipal;
-Macrobloco *Macros;
-int QuantMacro;
+int ContprimoS; //CONTADOR DE PRIMOS SEQUENCIAL
+int ContprimoP = 0; //CONTADOR DE PRIMOS PARALELO
+Matriz *MatPrincipal; //MATRIZ DE NUMEROS
+Macrobloco *Macros; //VETOR COM AS INFORMAÇÕES DOS MACROBLOCOS
+int QuantMacro; // NUMERO DE MACROBLOCOS
+int Gerenciador = 0; //GERENCIADOR DOS MACROBLOCOS
+pthread_mutex_t THREADMACROS; //MUTEX DAS THREADS
+pthread_mutex_t THREADPRIMOS; //MUTEX DO CONTADOR
 void CriarMatriz(int linha, int coluna){
     MatPrincipal=(Matriz*)malloc(sizeof(Matriz));
     if(MatPrincipal!=NULL){
@@ -28,7 +33,7 @@ void Preencher(){
     srand(89);
         for(int i=0; i<MatPrincipal->linha; i++){
             for(int j=0; j<MatPrincipal->coluna; j++){
-                MatPrincipal->data[i][j]=rand() % 29999;
+                MatPrincipal->data[i][j]=rand() % 9;
             }
         }
     }
@@ -90,5 +95,51 @@ void PrintMacros(){
             printf("\nMacro %i\nLinha I:%i\tLinha F:%i\nColuna I:%i\tColuna F:%i\n\n",i+1,Macros[i].LinhaI,Macros[i].LinhaF
                    ,Macros[i].ColunaI,Macros[i].ColunaF);
         }
+    }
+}
+void *GercenciadorDeMacros(){
+    return (Gerenciador >= QuantMacro) ? NULL : &Macros[Gerenciador++];
+}
+void *FuncaoThread(){
+    Macrobloco *MacroLocal;
+    int i,j, ContPrimoL;
+    while(TRUE){
+        pthread_mutex_lock(&THREADMACROS);
+        MacroLocal=(Macrobloco*)GercenciadorDeMacros();
+        pthread_mutex_unlock(&THREADMACROS);
+
+        if(MacroLocal == NULL){
+            pthread_exit(NULL);
+        }
+        ContPrimoL=0;
+
+        for(i=MacroLocal->LinhaI; i<=MacroLocal->LinhaF; i++){
+            for(j=MacroLocal->ColunaI; j<=MacroLocal->ColunaF; j++){
+                if(Primo(MatPrincipal->data[i][j])){
+                    ContPrimoL++;
+                }
+            }
+        }
+
+        pthread_mutex_lock(&THREADPRIMOS);
+        ContprimoP+=ContPrimoL;
+        pthread_mutex_unlock(&THREADPRIMOS);
+    }
+}
+void Paralela(){
+    int ContThreads, RespThread;
+    pthread_t threads[4];
+
+    for(ContThreads=0; ContThreads < 4; ContThreads++){
+        RespThread = pthread_create(&threads[ContThreads], NULL, &FuncaoThread, NULL);
+        if(RespThread){
+            printf("Erro na THREAD %i\n", ContThreads);
+            exit(-1);
+        }
+
+    }
+
+    for(ContThreads =0; ContThreads < 4; ContThreads++){
+        pthread_join(threads[ContThreads], NULL);
     }
 }

@@ -8,6 +8,7 @@
 #endif // FALSE
 #define MATRIZ_LINHAS 5
 #define MATRIZ_COLUNAS 5
+#define NUM_THREADS 2
 typedef struct MATRIZ{
     int **data, linha, coluna;
 }Matriz;
@@ -19,6 +20,9 @@ void Preencher();//PREENCHER MATRIZ
 bool Primo(int);//RETORNA SE O NUMERO É PRIMO OU NÃO
 int Sequencial();
 void FreeMatriz();
-void CriarMacroblocos(float linha, float coluna);
-
+void CriarMacroblocos(float , float);
+void PrintMacros();
+void *GercenciadorDeMacros();
+void *FuncaoThread();
+void Paralela();
 #endif // FUNCTIONS_H
