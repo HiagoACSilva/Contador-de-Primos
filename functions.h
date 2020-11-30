@@ -24,5 +24,5 @@ void *FuncaoThread(); //AS THREADS EXECUTAM AQUI
 void Paralela(); //A FUNÇÃO QUE AS THREADS EXECUTAM
 void IniciarThreads();//INICIADOR DOS MUTEXES
 int GetContPrimoP(); //O GET DA CONTAGEM DOS NUMEROS PRIMOS CONTADOS EM PARALELO
-void ModificarThreads(int Num); //FUNÇÃO PARA MODIFICAR O NUMERO DE THREADS
+void ModificarThreads(int); //FUNÇÃO PARA MODIFICAR O NUMERO DE THREADS
 #endif // FUNCTIONS_H
